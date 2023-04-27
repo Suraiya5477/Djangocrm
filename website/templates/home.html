@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block content %}
+  <!-- if user is already logged in or resistered -->
+  {% if user.is_authenticated %}
+  <!-- <h1>Records....</h1>  -->
+  
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">id</th>
+        <th scope="col">Name</th>
+        <th scope="col">Address</th>
+        <th scope="col">City</th>
+        <th scope="col">Zipcode</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      {% if records %}
+      {% for record in records %}
+      <!-- for looping throw the all rows -->
+      <tr>
+        <th scope="row"><a href="{% url 'record' record.id %}">{{record.id}}</th>
+          <!-- this record.id adds /to the url  -->
+          <!-- http://127.0.0.1:8000/record/1 for example -->
+        <td>{{record.first_name}} {{record.last_name}}</td>
+        <td>{{record.address}}</td>
+        <td>{{record.city}}</td>
+        <td>{{record.zipcode}}</td>
+      </tr>
+      {% endfor %}
+      {% endif %}
+    </tbody>
+
+  </table>
+  
+  <!-- if logged in the rest of the things will happen  -->
+  {% else %}
+  <div class="col-mod-6 offset-md-2.5">
+    <h1>Login</h1>
+<form method="POST" action="{% url 'home' %}">
+    {% csrf_token %}
+    
+        <br>
+    <div class="mb-3">
+          <!-- <label for="exampleInputEmail1" class="form-label">Email address</label> -->
+          <input type="text" class="form-control" name = "username",placeholder = "username" required>
+          
+          <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+    </div>
+    <br>
+        <div class="mb-3">
+          <!-- <label for="exampleInputPassword1" class="form-label">Password</label> -->
+          <input type="password" class="form-control" name = "password" ,placeholder = "password" required>
+        </div>
+      <div class="mb-3 form-check">
+          <!-- <input type="checkbox" class="form-check-input" id="exampleCheck1">
+          <label class="form-check-label" for="exampleCheck1">Check me out</label> -->
+      </div>
+        <button type="submit" class="btn btn-primary">login</button>
+  </form>
+
+</div>
+
+<!-- if is using then need to end the if else with endif  -->
+{% endif %}
+{% endblock %}
